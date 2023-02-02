@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,6 +21,7 @@ Route::get('/', function () {
 });
 
 Route::resource('articles', ArticleController::class);
+Route::resource('tags', TagController::class);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
