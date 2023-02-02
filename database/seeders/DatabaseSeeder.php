@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Article;
+use App\Models\Role;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -17,7 +18,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(10)->create();
+        Role::factory(10)->create();
+
+        User::factory(10)->create()->each(function ($user) {
+            $user->roles()->attach([rand(1, 10), rand(1, 10)]);
+        });
 
         Tag::factory(20)->create();
 
