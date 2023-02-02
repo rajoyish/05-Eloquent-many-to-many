@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -28,7 +29,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        //
+        return view('articles.create');
     }
 
     /**
@@ -39,7 +40,19 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $article = Article::create($request->only(['title']));
+        $tags = explode(',', $request->input('tags'));
+        $tag_ids = [];
+
+        foreach ($tags as $tag) {
+            $tag_db = Tag::where('name', trim($tag))
+                ->firstOrCreate(['name' => trim($tag)]);
+            $tag_ids[] = $tag_db->id;
+        }
+
+        $article->tags()->attach($tag_ids);
+
+        return to_route('articles.index');
     }
 
     /**
